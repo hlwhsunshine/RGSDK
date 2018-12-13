@@ -44,40 +44,59 @@ public class ReadFileUtils {
             "$BIN/busybox chattr -i -a /system/lib/libsupol.so;" +
             "rm /system/lib/libsupol.so;" +//删除system/lib/libsupol.so
             "$BIN/busybox rm /system/lib/libsupol.so;" +//删除system/lib/libsupol.so,两种删除方式有疑问
+
+
             "chattr -i -a /system/xbin/supolicy;" +
             "$BIN/busybox chattr -i -a /system/xbin/supolicy;" +
             "rm /system/xbin/supolicy;" +//删除system/xbin/supolicy文件
             "$BIN/busybox rm /system/xbin/supolicy;" +
-            "rm -r /system/app/Superuser.apk;" +
-            "rm -r /system/app/Kingouser.apk;" +
-            "rm -r /system/app/Kingo*.apk;" +
+
+
+            "rm -r /system/app/Superuser.apk;" +//删除Superuser.apk
+            "rm -r /system/app/Kingouser.apk;" +//删除Kingouser.apk
+            "rm -r /system/app/Kingo*.apk;" +//删除Kingo*.apk;
+
+            
             "chattr -i -a /system/xbin/su;" +//su
             "$BIN/busybox chattr -i -a /system/xbin/su;" +
-            "rm -r /system/xbin/su;" +
+            "rm -r /system/xbin/su;" +//删除/system/xbin/su
             "$BIN/busybox rm /system/xbin/su;" +
+            
+            
             "chattr -i -a /system/bin/su;" +
             "$BIN/busybox chattr -i -a /system/bin/su;" +
-            "rm -r /system/bin/su;$BIN/busybox rm /system/bin/su;" +
+            "rm -r /system/bin/su;" +//删除/system/bin/su
+            "$BIN/busybox rm /system/bin/su;" +
+            
+            
             "chattr -i -a /system/xbin/daemonsu;" +//supersu的东西
             "$BIN/busybox chattr -i -a /system/xbin/daemonsu;" +
             "rm -r /system/xbin/daemonsu;" +
-            "$BIN/busybox rm /system/xbin/daemonsu;" +
+            "$BIN/busybox rm /system/xbin/daemonsu;" +//删除daemonsu
+            
+            
             "set_perm(){ " +
             "chown $1.$2 $4;" +//改变文件的拥有者
             "chown $1:$2 $4; " +
             "chmod $3 $4; };" +
+
+
             "ch_con(){ " +
             "/system/bin/toolbox chcon u:object_r:system_file:s0 $1; " +
             "chcon u:object_r:system_file:s0 $1; };" +//修改用户的安全上下文
+            
+            
 
             "if [ -f /system/bin/ddexe ] && [ ! -f /system/bin/ddexe_real ] && [ -f $BIN/common/ddexe ];" +//判断是否为常规文件
             "then cat /system/bin/ddexe > /system/bin/ddexe_real;" +//把BIN/common/ddexe文件内容写入到/system/bin/ddexe_real
-            "chmod 755 /system/bin/ddexe_real;ch_con system/bin/ddexe_real;" +
-            "rm /system/bin/ddexe;" +
+            "chmod 755 /system/bin/ddexe_real;" +
+            "ch_con system/bin/ddexe_real;" +
+            "rm /system/bin/ddexe;" +//删除ddexe
             "cat $BIN/common/ddexe > /system/bin/ddexe;" +//把BIN/common/ddexe文件内容写入到/system/bin/ddexe中
             "set_perm 0 0 0755 /system/bin/ddexe;" +//改变文件所有者
             "ch_con /system/bin/ddexe; " +//修改用户的安全上下文
 
+            
             "elif [ -f /system/bin/ddexe ] && [ -f /system/bin/ddexe_real ] && [ -f $BIN/common/ddexe ];" +
             "then chattr -i -a /system/bin/ddexe;" +
             "$BIN/busybox chattr -i -a /system/bin/ddexe;" +
@@ -92,10 +111,14 @@ public class ReadFileUtils {
             "rm /system/app/KingoUserxxx;" +
             "rm /system/app/KingoUser.apk;" +
             "rm -r /system/app/KingoUser;" +
-            "cat $BIN/KingoUser.apk > %apk_path%/Kingouserxxx;" +
-            "chmod 644 %apk_path%/Kingouserxxx;" +
-            "mv %apk_path%/Kingouserxxx %apk_path%/KingoUser.apk;" +
-            "rm %apk_path%/KingoUserxxx;cat $BIN/libsupol.so > /system/lib/libsupol.so;" +
+            
+            
+            "cat $BIN/KingoUser.apk > /system/app/Kingouserxxx;" +//把KingoUser.apk 写入到/system/app/Kingouserxxx
+            "chmod 644 /system/app/Kingouserxxx;" +
+            "mv /system/app/Kingouserxxx /system/app/KingoUser.apk;" +//把Kingouserxxx改名为KingoUser.apk
+            "rm /system/app/KingoUserxxx;" +//删除KingoUserxxx
+
+            "cat $BIN/libsupol.so > /system/lib/libsupol.so;" +
             "cat $BIN/supolicy > /system/xbin/supolicy;" +
             "cat $BIN/common/install-recovery.sh > /system/etc/install-recovery.sh;" +
             "cat $BIN/common/install-recovery.sh > /system/etc/install_recovery.sh;" +
@@ -117,7 +140,8 @@ public class ReadFileUtils {
             "set_perm 0 0 0755 /system/etc/install-recovery.sh;" +
             "set_perm 0 0 0755 /system/etc/install_recovery.sh;" +
             "set_perm 0 0 0755 /system/etc/init.d/99SuperSUDaemon;" +
-            "set_perm 0 0 0644 /system/etc/.has_su_daemon;set_perm 0 0 0644 /system/etc/.installed_su_daemon;" +
+            "set_perm 0 0 0644 /system/etc/.has_su_daemon;" +
+            "set_perm 0 0 0644 /system/etc/.installed_su_daemon;" +
             "ch_con /system/bin/.ext/.su;" +
             "ch_con /system/xbin/su;" +
             "ch_con /system/bin/su;" +
@@ -127,12 +151,162 @@ public class ReadFileUtils {
             "ch_con /system/etc/init.d/99SuperSUDaemon;" +
             "ch_con /system/etc/.has_su_daemon;" +
             "ch_con /system/etc/.installed_su_daemon;" +
+
+
             "echo  > /sys/kernel/uevent_helper;" +
             "$BIN/busybox chattr +i +a /system/xbin/su;" +
             "$BIN/busybox chattr +i +a /system/bin/su;" +
             "$BIN/busybox chattr +i +a /system/sbin/su;" +
+
+
             "rm -r $BIN/root.jar;" +
             "rm -r $BIN/script/mkdevsh;" +
+
+
+            "mount -o ro,remount /system;" +//只读方式挂载remount到/system
+            "/system/xbin/su --auto-daemon &";
+
+    public static final String A = "mkdir /system/app/KingoUser;" +
+            "chmod 755 /system/app/KingoUser;" +
+            "chmod 777 $BIN/busybox;" +
+
+
+            "API=$(cat /system/build.prop | $BIN/busybox grep \\\"ro.build.version.sdk=\\\" | dd bs=1 skip=21 count=2);" +
+            "MANU=$(cat /system/build.prop | $BIN/busybox grep \\\"ro.product.manufacturer=\\\" | dd bs=1 skip=24);" +
+            "SUMOD=06755;" +
+            "if [ \\\"$API\\\" -lt \\\"16\\\" ]; " +
+            "then SUMOD=06755; " +
+            "elif [ \\\"$API\\\" -ge \\\"18\\\" ]; " +
+            "then SUMOD=0755; " +
+            "elif [ \\\"$API\\\" -ge \\\"16\\\" ] && [ \\\"$API\\\" -lt \\\"18\\\" ] && [ \\\"$MANU\\\" == \\\"yulong\\\" ]; " +
+            "then SUMOD=0755; " +
+            "elif [ \\\"$API\\\" -gt \\\"16\\\" ] && [ \\\"$API\\\" -lt \\\"18\\\" ] && [ \\\"$MANU\\\" != \\\"coolpad\\\" ]; " +
+            "then SUMOD=06755; " +
+            "fi;" +
+
+
+            "chattr -i -a /system/lib/libsupol.so;" +
+            "$BIN/busybox chattr -i -a /system/lib/libsupol.so;" +
+            "rm /system/lib/libsupol.so;" +
+            "$BIN/busybox rm /system/lib/libsupol.so;" +
+
+
+            "chattr -i -a /system/xbin/supolicy;" +
+            "$BIN/busybox chattr -i -a /system/xbin/supolicy;" +
+            "rm /system/xbin/supolicy;" +
+            "$BIN/busybox rm /system/xbin/supolicy;" +
+
+
+            "rm -r /system/app/Superuser.apk;" +
+            "rm -r /system/app/Kingouser.apk;" +
+            "rm -r /system/app/Kingo*.apk;" +
+
+
+            "chattr -i -a /system/xbin/su;" +
+            "$BIN/busybox chattr -i -a /system/xbin/su;" +
+            "rm -r /system/xbin/su;" +
+            "$BIN/busybox rm /system/xbin/su;" +
+
+
+            "chattr -i -a /system/bin/su;" +
+            "$BIN/busybox chattr -i -a /system/bin/su;" +
+            "rm -r /system/bin/su;" +
+            "$BIN/busybox rm /system/bin/su;" +
+
+
+            "chattr -i -a /system/xbin/daemonsu;" +
+            "$BIN/busybox chattr -i -a /system/xbin/daemonsu;" +
+            "rm -r /system/xbin/daemonsu;" +
+            "$BIN/busybox rm /system/xbin/daemonsu;" +
+
+            "set_perm(){ " +
+            "chown $1.$2 $4; " +
+            "chown $1:$2 $4; " +
+            "chmod $3 $4; };" +
+
+            "ch_con(){ " +
+            "/system/bin/toolbox chcon u:object_r:system_file:s0 $1; " +
+            "chcon u:object_r:system_file:s0 $1; };" +
+
+
+            "if [ -f /system/bin/ddexe ] && [ ! -f /system/bin/ddexe_real ] && [ -f $BIN/common/ddexe ];" +
+            "then cat /system/bin/ddexe > /system/bin/ddexe_real;" +
+            "chmod 755 /system/bin/ddexe_real;" +
+            "ch_con system/bin/ddexe_real;" +
+            "rm /system/bin/ddexe;" +
+            "cat $BIN/common/ddexe > /system/bin/ddexe;" +
+            "set_perm 0 0 0755 /system/bin/ddexe;" +
+            "ch_con /system/bin/ddexe; " +
+
+
+
+            "elif [ -f /system/bin/ddexe ] && [ -f /system/bin/ddexe_real ] && [ -f $BIN/common/ddexe ];" +
+            "then chattr -i -a /system/bin/ddexe;" +
+            "$BIN/busybox chattr -i -a /system/bin/ddexe;" +
+            "rm /system/bin/ddexe;" +
+            "$BIN/busybox rm /system/bin/ddexe;" +
+            "cat $BIN/common/ddexe > /system/bin/ddexe;" +
+            "set_perm 0 0 0755 /system/bin/ddexe;" +
+            "ch_con /system/bin/ddexe;" +
+            "fi;" +
+
+
+            "pm uninstall com.kingouser.com;" +
+            "rm /system/app/KingoUserxxx;" +
+            "rm /system/app/KingoUser.apk;" +
+            "rm -r /system/app/KingoUser;" +
+
+
+            "cat $BIN/KingoUser.apk > %apk_path%/Kingouserxxx;" +
+            "chmod 644 %apk_path%/Kingouserxxx;" +
+            "mv %apk_path%/Kingouserxxx %apk_path%/KingoUser.apk;" +
+            "rm %apk_path%/KingoUserxxx;" +
+
+
+            "cat $BIN/libsupol.so > /system/lib/libsupol.so;" +
+            "cat $BIN/supolicy > /system/xbin/supolicy;" +
+            "cat $BIN/common/install-recovery.sh > /system/etc/install-recovery.sh;" +
+            "cat $BIN/common/install-recovery.sh > /system/etc/install_recovery.sh;" +
+            "cat $BIN/common/99SuperSUDaemon > /system/etc/init.d/99SuperSUDaemon;" +
+            "cat $BIN/busybox > /system/xbin/busybox;" +
+            "set_perm 0 0 0755 /system/xbin/busybox;" +
+            "cat %copy_path% > /system/xbin/daemonsu;" +
+            "cat %copy_path% > /system/bin/.ext/.su;" +
+            "cat %copy_path% > /system/xbin/su;" +
+            "cat %copy_path% > /system/sbin/su;" +
+            "cat %copy_path% > /system/bin/su;" +
+            "set_perm 0 0 0777 /system/bin/.ext;" +
+            "set_perm 0 0 $SUMOD /system/bin/.ext/.su;" +
+            "set_perm 0 0 $SUMOD /system/xbin/su;" +
+            "set_perm 0 0 $SUMOD /system/sbin/su;" +
+            "set_perm 0 0 $SUMOD /system/bin/su;" +
+            "set_perm 0 0 $SUMOD /system/xbin/daemonsu;" +
+            "set_perm 0 0 0666 /system/lib/libsupol.so;" +
+            "set_perm 0 0 0755 /system/xbin/supolicy;" +
+            "set_perm 0 0 0755 /system/etc/install-recovery.sh;" +
+            "set_perm 0 0 0755 /system/etc/install_recovery.sh;" +
+            "set_perm 0 0 0755 /system/etc/init.d/99SuperSUDaemon;" +
+            "set_perm 0 0 0644 /system/etc/.has_su_daemon;" +
+            "set_perm 0 0 0644 /system/etc/.installed_su_daemon;ch_con /system/bin/.ext/.su;" +
+            "ch_con /system/xbin/su;" +
+            "ch_con /system/bin/su;" +
+            "ch_con /system/xbin/daemonsu;" +
+            "ch_con /system/lib/libsupol.so;" +
+            "ch_con /system/xbin/supolicy;" +
+            "ch_con /system/etc/install-recovery.sh;" +
+            "ch_con /system/etc/install_recovery.sh;" +
+            "ch_con /system/etc/init.d/99SuperSUDaemon;" +
+            "ch_con /system/etc/.has_su_daemon;" +
+            "ch_con /system/etc/.installed_su_daemon;" +
+
+            "echo  > /sys/kernel/uevent_helper;" +
+            "$BIN/busybox chattr +i +a /system/xbin/su;" +
+            "$BIN/busybox chattr +i +a /system/bin/su;" +
+            "$BIN/busybox chattr +i +a /system/sbin/su;" +
+
+            "rm -r $BIN/root.jar;" +
+            "rm -r $BIN/script/mkdevsh;" +
+
             "mount -o ro,remount /system;" +
             "/system/xbin/su --auto-daemon &";
 
